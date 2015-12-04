@@ -76,6 +76,8 @@ bool init(int argc, char **argv) {
     int width = 1280;
     int height = 720;
 
+    glGetError();
+
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
