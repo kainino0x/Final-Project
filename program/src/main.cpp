@@ -170,18 +170,16 @@ void initVAO() {
 
     glBindBuffer(GL_ARRAY_BUFFER, planetVBO);
     glBufferData(GL_ARRAY_BUFFER, 4 * 3 * sizeof(GLfloat), bodies, GL_DYNAMIC_DRAW);
+    glVertexAttribPointer((GLuint)positionLocation, 4, GL_FLOAT, GL_FALSE, 0, 0);
+    glEnableVertexAttribArray(positionLocation);
 
-	glBindBuffer(GL_ARRAY_BUFFER, planetNBO);
-	glBufferData(GL_ARRAY_BUFFER, 4 * 3 * sizeof(GLfloat), nbodies, GL_DYNAMIC_DRAW);
+    glBindBuffer(GL_ARRAY_BUFFER, planetNBO);
+    glBufferData(GL_ARRAY_BUFFER, 4 * 3 * sizeof(GLfloat), nbodies, GL_DYNAMIC_DRAW);
+    glVertexAttribPointer((GLuint)normalLocation, 4, GL_FLOAT, GL_FALSE, 0, 0);
+    glEnableVertexAttribArray(normalLocation);
 
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, planetIBO);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, 3 * sizeof(GLuint), bindices, GL_STATIC_DRAW);
-
-    glEnableVertexAttribArray(positionLocation);
-    glVertexAttribPointer((GLuint)positionLocation, 4, GL_FLOAT, GL_FALSE, 0, 0);
-
-	glEnableVertexAttribArray(normalLocation);
-	glVertexAttribPointer((GLuint)normalLocation, 4, GL_FLOAT, GL_FALSE, 0, 0);
 
     glBindVertexArray(0);
 
@@ -274,13 +272,13 @@ void mainLoop() {
 #if VISUALIZE
         glUseProgram(program[PROG_PLANET]);
         glBindVertexArray(planetVAO);
-        glPointSize(5.0f);
-        glDrawElements(GL_POINTS, 3, GL_UNSIGNED_INT, 0);
-        glPointSize(1.0f);
+        glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, 0);
 
         glUseProgram(0);
         glBindVertexArray(0);
 		//printf("%d\n", glGetError());
+
+	{ auto e = glGetError(); if (e) { printf("ERROR:%d: %d\n", __LINE__, e); } }
 
         glfwSwapBuffers(window);
 #endif
